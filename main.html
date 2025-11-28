@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lời Mời Tốt Nghiệp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --bg: #F5F3EE; /* warm light beige from invitation */
+            --primary: #2F5AA8; /* headline blue */
+            --primary-600: #274f8f;
+            --accent: #8CBF26; /* olive/green accent */
+            --muted: #6b7280;
+            --card-bg: rgba(255,255,250,0.92);
+            --code-bg: #fffefb; /* light parchment for code area */
+            --text-dark: #0f172a;
+        }
+
+        body {
+            position: relative;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            /* soft layered background to mimic the invitation paper */
+            background-image:
+                radial-gradient(circle at 10% 10%, rgba(47,90,168,0.03) 0, transparent 12%),
+                radial-gradient(circle at 90% 80%, rgba(140,191,38,0.03) 0, transparent 12%),
+                linear-gradient(180deg, rgba(255,255,255,0.55), rgba(0,0,0,0.02));
+            background-repeat: no-repeat;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Syntax Highlighting Colors mimicking VS Code Dracula/One Dark */
+        .keyword { color: #c678dd; } /* Purple */
+        .function { color: #61afef; } /* Blue */
+        .string { color: #98c379; } /* Green */
+        .variable { color: #e06c75; } /* Red */
+        .number { color: #d19a66; } /* Orange */
+        .comment { color: #5c6370; font-style: italic; } /* Grey */
+        .operator { color: #56b6c2; } /* Cyan */
+        
+        /* Typing Effect for Terminal */
+        .typing-effect {
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid transparent;
+            width: 0;
+            animation: typing 2s steps(40, end) forwards;
+        }
+        
+        .delay-100 {
+            animation-delay: 1s;
+        }
+        
+        /* New Animation for Delayed Content */
+        .fade-in-delayed {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            animation-delay: 2.3s; /* Waits for typing lines (1s delay + 2s duration + 0.5s buffer) */
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 8px;
+            height: 18px;
+            background-color: #528bff;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+
+        /* Subtle paper texture overlay using a tiny SVG turbulence */
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: multiply;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" viewBox="0 0 120 120"><filter id="n"><feTurbulence baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="120" height="120" filter="url(%23n)" fill="%23ffffff"/></svg>');
+            background-size: 300px 300px;
+        }
+
+        /* Gentle vignette for focus */
+        body::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse at center, rgba(0,0,0,0.00) 40%, rgba(0,0,0,0.045) 100%);
+            mix-blend-mode: multiply;
+            opacity: 1;
+        }
+
+        /* Run button override (targeted) */
+        #run-btn {
+            background-color: var(--primary) !important;
+            box-shadow: 0 8px 20px rgba(47,90,168,0.12);
+        }
+        #run-btn:hover { filter: brightness(0.95); }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-2 md:p-4 bg-[var(--bg)] text-[var(--text-dark)]">
+
+    <!-- Main Container (The Card) -->
+    <div class="relative w-full max-w-3xl glass-panel rounded-xl shadow-2xl overflow-hidden transform transition hover:scale-[1.01] duration-300 border border-slate-700/50">
+        
+        <!-- Header / Toolbar -->
+        <div class="bg-slate-800/80 px-4 py-3 flex items-center justify-between border-b border-slate-700">
+            <div class="flex items-center space-x-2">
+                <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500"></div>
+                <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500"></div>
+                <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500"></div>
+            </div>
+            <div class="text-slate-400 text-[10px] md:text-xs font-mono flex items-center truncate mx-2">
+                <i class="fa-solid fa-graduation-cap mr-2 text-blue-400"></i>
+                graduation_invite.py
+            </div>
+            <div class="text-slate-500 text-[10px] md:text-xs whitespace-nowrap">HCMUS 21.25</div>
+        </div>
+
+        <!-- Editor Body -->
+        <div class="flex h-[55vh] md:h-[500px] relative">
+            <!-- Sidebar (Line Numbers) - Only visible on desktop -->
+            <div class="hidden md:flex flex-col bg-slate-900/50 w-12 pt-3 pb-4 text-xs md:text-sm leading-relaxed code-font text-slate-600 items-end pr-3 border-r border-slate-700/50 flex-shrink-0 select-none">
+                <span>1</span><span>2</span><span>3</span><span>4</span><span>5</span>
+                <span>6</span><span>7</span><span>8</span><span>9</span><span>10</span>
+                <span>11</span><span>12</span><span>13</span><span>14</span><span>15</span>
+                <span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
+            </div>
+
+            <!-- Code Content -->
+            <div class="flex-1 px-3 pt-3 pb-10 md:px-6 md:pt-3 overflow-auto bg-[#282c34]/95 text-slate-200 code-font text-xs md:text-sm leading-relaxed whitespace-pre-wrap md:whitespace-pre shadow-inner" id="code-content"><span class="comment"># Chào bạn! Đây là code quan trọng nhất năm nay 🎓</span>
+<span class="keyword">import</span> <span class="variable">Happiness</span>, <span class="variable">Memories</span>
+
+<span class="keyword">class</span> <span class="function">GraduationCeremony</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="variable">self</span>):
+        <span class="variable">self</span>.host = <span class="string">"<span id="host-name">Trần Thị Thanh Vân</span>"</span>
+        <span class="variable">self</span>.degree = <span class="string">"Cử nhân Công nghệ thông tin"</span>
+        <span class="variable">self</span>.status = <span class="string">"Sẵn sàng ra trường 💯"</span>
+
+    <span class="keyword">def</span> <span class="function">get_details</span>(<span class="variable">self</span>):
+        <span class="keyword">return</span> {
+            <span class="string">"date"</span>: <span class="string">"Thứ 7, 06/12/2025"</span>,
+            <span class="string">"time"</span>: <span class="string">"11:00 AM"</span>,
+            <span class="string">"location"</span>: <span class="string">"Trường ĐH Khoa học Tự nhiên (227 Nguyễn Văn Cừ, Phường Chợ Quán, Tp.HCM)"</span>,
+        }
+
+    <span class="keyword">def</span> <span class="function">main</span>():
+        <span class="variable">event</span> = <span class="function">GraduationCeremony</span>()
+        <span class="keyword">print</span>(<span class="string">f"Mời bạn đến chia vui cùng {</span><span class="variable">event</span><span class="operator">.</span><span class="variable">host</span><span class="string">}!"</span>)
+        
+        <span class="comment"># Click nút bên dưới để xác nhận tham gia nhé! 👇</span>
+        <span class="keyword">if</span> <span class="function">button_clicked</span>():
+            <span class="function">send_love</span>() <span class="cursor"></span></div>
+        </div>
+
+        <!-- Footer / Action Area -->
+        <div class="bg-slate-800/90 p-3 md:p-4 border-t border-slate-700 flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4 z-10 relative">
+            <div class="text-slate-400 text-[10px] md:text-sm flex items-center w-full md:w-auto justify-center md:justify-start bg-slate-900/50 md:bg-transparent py-1 rounded">
+                <i class="fas fa-code-branch mr-2 text-blue-400"></i> 
+                <span>branch: <span class="text-green-400 ml-1">feature/new-journey</span></span>
+            </div>
+            
+            <button id="run-btn" onclick="runCode()" class="w-full md:w-auto group relative px-6 py-3 md:py-2 bg-green-600 hover:bg-green-500 active:bg-green-700 text-white font-bold rounded shadow-lg transition-all flex items-center justify-center gap-2 overflow-hidden touch-manipulation cursor-pointer">
+                <span class="absolute w-64 h-64 mt-12 group-hover:-rotate-45 group-hover:mt-24 transition-all duration-1000 ease-out -translate-x-10 -translate-y-10 bg-white opacity-10 rotate-45"></span>
+                <i class="fas fa-play text-xs animate-pulse"></i>
+                <span>RUN CODE (RSVP)</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Output Modal (Simulated Terminal) -->
+    <div id="output-modal" class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/90 backdrop-blur-sm transition-opacity opacity-100 px-4 py-6 sm:p-4">
+        <div class="bg-[#1e1e1e] w-full max-w-lg rounded-lg shadow-2xl border border-slate-700 font-mono text-sm md:text-base transform scale-95 transition-transform duration-200 overflow-hidden flex flex-col max-h-[80vh] sm:max-h-[90vh]" id="modal-content">
+            <!-- Terminal Header -->
+            <div class="bg-[#2d2d2d] px-3 py-3 border-b border-black flex items-center justify-between shrink-0">
+                <div class="flex gap-1.5 md:gap-2">
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-red-500"></div>
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-yellow-500"></div>
+                    <div class="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500"></div>
+                </div>
+                <span class="text-slate-400 text-xs ml-2 md:ml-4 flex-1 text-center truncate">Terminal - Output</span>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-2 min-w-[30px] flex justify-end cursor-pointer"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <!-- Terminal Body -->
+            <div class="p-4 md:p-6 text-green-400 space-y-2 overflow-y-auto flex-1 bg-[#1e1e1e] scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+                <!-- Compilation Lines -->
+                <p class="typing-effect text-xs md:text-base">> Compiling invitation...</p>
+                <p class="typing-effect delay-100 text-xs md:text-base">> Loading assets... [Success]</p>
+                
+                <!-- Main Message Content (Delayed) -->
+                <div class="fade-in-delayed">
+                    <br>
+                    <p class="text-white font-bold text-base md:text-lg border-b border-dashed border-slate-600 pb-2">MESSAGE OUTPUT:</p>
+                    <div class="text-slate-200 mt-4 space-y-3 leading-relaxed">
+                        <p class="text-sm md:text-base">🎉 <span class="text-yellow-400 font-bold">Rất mong sự hiện diện của bạn!</span></p>
+                        <div class="bg-slate-800/50 p-3 rounded border-l-2 border-green-500 text-sm md:text-base">
+                            <p class="mb-1">📍 <span class="font-semibold text-white">Tại:</span>
+                                Trường ĐH Khoa học Tự nhiên
+                                   (<a class="text-blue-300 underline" href="https://maps.app.goo.gl/YpWHAKmDzExuYxX66" target="_blank" rel="noopener noreferrer">227 Nguyễn Văn Cừ, Phường Chợ Quán, Tp.HCM</a>)
+                            </p>
+                            <div class="mt-3 rounded overflow-hidden border border-slate-700">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.6317798461223!2d106.67990747691267!3d10.762835589385146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f1c06f4e1dd%3A0x43900f1d4539a3d!2zVHLGsOG7nW5nIMSQ4bqhaSBo4buNYyBLaG9hIGjhu41jIFThu7Egbmhpw6puIC0gxJDhuqFpIGjhu41jIFF14buRYyBnaWEgVFAuSENN!5e0!3m2!1svi!2s!4v1764353808625!5m2!1svi!2s" width="600" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+
+                            <p class="mt-4">⏰ <span class="font-semibold text-white">Lúc:</span> 11:00 AM - 06/12/2025</p>
+                        </div>
+                        <p class="italic text-slate-500 text-[12px] md:text-xs mt-4 border-t border-slate-800 pt-2">P/s: Một số địa điểm gửi xe quanh trường:</p>
+                        <p class="italic text-slate-500 text-[12px] md:text-xs mt-2">- Trường THPT chuyên Lê Hồng Phong</p>
+                        <p class="italic text-slate-500 text-[12px] md:text-xs mt-2">- Nowzone</p>
+                    </div>
+                    <br>
+                    <p class="animate-pulse text-green-500 font-bold text-xs md:text-base">> _</p>
+                </div>
+            </div>
+            
+            <!-- Footer Buttons -->
+            <div class="p-3 bg-[#2d2d2d] border-t border-black flex flex-col sm:flex-row justify-end gap-2 shrink-0">
+                <button onclick="copyInfo()" class="w-full sm:w-auto px-3 py-2.5 sm:py-2 bg-slate-700 hover:bg-slate-600 active:bg-slate-800 text-white rounded font-medium text-xs md:text-sm transition flex items-center justify-center cursor-pointer">
+                    <i class="fas fa-copy mr-2"></i> Copy thông tin
+                </button>
+                <button onclick="closeModal()" class="w-full sm:w-auto px-3 py-2.5 sm:py-2 bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white rounded font-medium text-xs md:text-sm transition flex items-center justify-center cursor-pointer">
+                    OK, Đã nhận!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function runCode() {
+            const modal = document.getElementById('output-modal');
+            const modalContent = document.getElementById('modal-content');
+            
+            // Re-trigger animations by cloning and replacing the terminal body logic could be complex
+            // Simple way: Hide first, then show. Browser reflow restarts CSS animations on display:none -> block
+            
+            modal.classList.remove('hidden');
+            // Small delay to allow display:block to apply before opacity transition
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('flex');
+                modalContent.classList.remove('scale-95');
+                modalContent.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('output-modal');
+            const modalContent = document.getElementById('modal-content');
+
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100');
+            modalContent.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function copyInfo() {
+            const text = [
+                "Lễ tốt nghiệp của Trần Thị Thanh Vân",
+                "Thời gian: 11:00 AM - 06/12/2025",
+                "Địa điểm: Trường ĐH Khoa học Tự nhiên (227 Nguyễn Văn Cừ, Phường Chợ Quán, Tp.HCM)\n",
+                "P/s: Một số địa điểm gửi xe quanh trường:",
+                "- Trường THPT chuyên Lê Hồng Phong",
+                "- Nowzone"
+            ].join("\n");
+            
+            // Check if clipboard API is available
+            if (navigator.clipboard && window.isSecureContext) {
+                 navigator.clipboard.writeText(text).then(() => {
+                    alert("Đã copy thông tin vào clipboard!");
+                }).catch(err => {
+                    console.error('Không thể copy: ', err);
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                // Fallback for older browsers or non-secure contexts (like some iframes)
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+
+        function fallbackCopyTextToClipboard(text) {
+            var textArea = document.createElement("textarea");
+            textArea.value = text;
+            
+            // Avoid scrolling to bottom
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                var successful = document.execCommand('copy');
+                var msg = successful ? 'Đã copy thông tin vào clipboard!' : 'Không thể copy tự động.';
+                alert(msg);
+            } catch (err) {
+                console.error('Fallback: Oops, unable to copy', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+</html>
